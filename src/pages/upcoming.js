@@ -6,6 +6,11 @@ const Upcoming = () => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [launches, setLaunches] = useState([])
   const [launchpads, setLaunchpads] = useState([])
+  const [favourites, setFavourites] = useState(() => {
+    const local = JSON.parse(localStorage.getItem('favourites'))
+
+    return local || []
+  })
 
   const getUpcoming = () => {
     fetch("https://api.spacexdata.com/v4/launches/upcoming")
@@ -46,6 +51,19 @@ const Upcoming = () => {
     getLaunchpads()
   }, [])
 
+  useEffect(() => {
+    localStorage.setItem('favourites', JSON.stringify(favourites))
+  }, [favourites])
+
+  const addToFavourites = (launch) => {
+    setFavourites(prevFavourites => {
+      if(prevFavourites.includes(launch.id))
+        return prevFavourites.filter(l => l !== launch.id)
+
+      return prevFavourites.concat(launch.id)
+    })
+  }
+
   if(error)
     return <div>Error: {error.message}</div>
   if(!isLoaded)
@@ -65,12 +83,29 @@ const Upcoming = () => {
       </thead>
 
       <tbody>
-        {launches.map(l =>
+        {launches.filter(l => favourites.includes(l.id)).map(l =>
           <tr key={l.id}>
             <td>{l.name}</td>
             <td>{moment(l.date_utc).format('MMM Do YYYY, H:mm')}</td>
             <td>{getLaunchpad(l.launchpad)?.name}</td>
-            <td><div className="text-xl cursor-pointer">&#9734; &#9733;</div></td>
+            <td>
+              <div className="text-xl cursor-pointer" onClick={() => addToFavourites(l)}>
+                <>&#9733;</>
+              </div>
+            </td>
+          </tr>
+        )}
+
+        {launches.filter(l => !favourites.includes(l.id)).map(l =>
+          <tr key={l.id}>
+            <td>{l.name}</td>
+            <td>{moment(l.date_utc).format('MMM Do YYYY, H:mm')}</td>
+            <td>{getLaunchpad(l.launchpad)?.name}</td>
+            <td>
+              <div className="text-xl cursor-pointer" onClick={() => addToFavourites(l)}>
+               <>&#9734;</>
+              </div>
+            </td>
           </tr>
         )}
       </tbody>
