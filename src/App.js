@@ -12,7 +12,7 @@ import Header from "./components/Header";
 const App = () => {
   return <Router>
     <div className="App">
-      <div className="container mx-auto">
+      <div className="flex flex-col container mx-auto h-screen">
         <Header />
 
         <Routes>

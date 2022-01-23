@@ -39,36 +39,38 @@ const Next = () => {
   }, [launch])
 
   if(error)
-    return <div>Error: {error.message}</div>
+    return <div>Error loading next launch</div>
   if(!isLoaded)
     return <div>Loading...</div>
 
-  return <>
-    <h2 className="">Next launch</h2>
-    <h1 className="text-2xl text-bold">{launch.name}</h1>
+  return <div className="flex flex-1 flex-col w-full items-center">
+    <div className="mt-5 text-center">
+      <h2 className="text-sm uppercase font-bold">Next launch</h2>
+      <h1 className="text-4xl">{launch.name}</h1>
+    </div>
 
-    <div className="flex flex-col">
-      <div className="">
-        <div className="">{duration.days()}</div>
-        <div className="">Days</div>
+    <div className="flex flex-col flex-1 justify-center text-center">
+      <div className="mb-6">
+        <div className="text-6xl">{duration.days()}</div>
+        <div className="text-xs rounded px-5 py-2 bg-teal-300 uppercase font-bold">Days</div>
       </div>
 
-      <div className="">
-        <div className="">{duration.hours()}</div>
-        <div className="">Hours</div>
+      <div className="mb-6">
+        <div className="text-6xl">{duration.hours()}</div>
+        <div className="text-xs rounded px-5 py-2 bg-teal-300 uppercase font-bold">Hours</div>
       </div>
 
-      <div className="">
-        <div className="">{duration.minutes()}</div>
-        <div className="">Minutes</div>
+      <div className="mb-6">
+        <div className="text-6xl">{duration.minutes()}</div>
+        <div className="text-xs rounded px-5 py-2 bg-teal-300 uppercase font-bold">Minutes</div>
       </div>
       
       <div className="">
-        <div className="">{duration.seconds()}</div>
-        <div className="">Seconds</div>
+        <div className="text-6xl">{duration.seconds()}</div>
+        <div className="text-xs rounded px-5 py-2 bg-teal-300 uppercase font-bold">Seconds</div>
       </div>
     </div>
-  </>
+  </div>
 }
 
 export default Next

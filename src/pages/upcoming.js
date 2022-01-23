@@ -52,12 +52,15 @@ const Upcoming = () => {
     return <div>Loading launches...</div>
 
   return <>
-    <table className="w-full">
-      <thead className="font-bold">
+    <h1 className="text-4xl font-bold mt-8">Upcoming launches</h1>
+
+    <table className="w-full mt-5">
+      <thead className="font-bold border-b">
         <tr>
           <td>Mission</td>
           <td>Launch date (UTC)</td>
           <td>Launchpad</td>
+          <td>Favourite</td>
         </tr>
       </thead>
 
@@ -67,6 +70,7 @@ const Upcoming = () => {
             <td>{l.name}</td>
             <td>{moment(l.date_utc).format('MMM Do YYYY, H:mm')}</td>
             <td>{getLaunchpad(l.launchpad)?.name}</td>
+            <td><div className="text-xl cursor-pointer">&#9734; &#9733;</div></td>
           </tr>
         )}
       </tbody>
