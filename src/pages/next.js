@@ -43,13 +43,13 @@ const Next = () => {
   if(!isLoaded)
     return <div>Loading...</div>
 
-  return <div className="flex flex-1 flex-col w-full items-center">
-    <div className="mt-5 text-center">
+  return <div className="flex flex-1 flex-col w-full items-center justify-evenly">
+    <div className="text-center">
       <h2 className="text-sm uppercase font-bold">Next launch</h2>
       <h1 className="text-4xl">{launch.name}</h1>
     </div>
 
-    <div className="flex flex-col flex-1 justify-center text-center">
+    <div className="flex flex-col justify-center text-center">
       <div className="mb-6">
         <div className="text-6xl">{duration.days()}</div>
         <div className="text-xs rounded px-5 py-2 bg-teal-300 uppercase font-bold">Days</div>

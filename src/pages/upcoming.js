@@ -49,6 +49,11 @@ const Upcoming = () => {
   useEffect(() => {
     getUpcoming()
     getLaunchpads()
+
+    return () => {
+      setLaunches([])
+      setLaunchpads([])
+    }
   }, [])
 
   useEffect(() => {
@@ -65,7 +70,7 @@ const Upcoming = () => {
   }
 
   if(error)
-    return <div>Error: {error.message}</div>
+    return <div>Error loading launches</div>
   if(!isLoaded)
     return <div>Loading launches...</div>
 
@@ -83,28 +88,15 @@ const Upcoming = () => {
       </thead>
 
       <tbody>
-        {launches.filter(l => favourites.includes(l.id)).map(l =>
+        {launches.filter(l => favourites.includes(l.id)).concat(launches.filter(l => !favourites.includes(l.id))).map((l, index) =>
           <tr key={l.id}>
             <td>{l.name}</td>
             <td>{moment(l.date_utc).format('MMM Do YYYY, H:mm')}</td>
             <td>{getLaunchpad(l.launchpad)?.name}</td>
             <td>
-              <div className="text-xl cursor-pointer" onClick={() => addToFavourites(l)}>
-                <>&#9733;</>
-              </div>
-            </td>
-          </tr>
-        )}
-
-        {launches.filter(l => !favourites.includes(l.id)).map(l =>
-          <tr key={l.id}>
-            <td>{l.name}</td>
-            <td>{moment(l.date_utc).format('MMM Do YYYY, H:mm')}</td>
-            <td>{getLaunchpad(l.launchpad)?.name}</td>
-            <td>
-              <div className="text-xl cursor-pointer" onClick={() => addToFavourites(l)}>
-               <>&#9734;</>
-              </div>
+              <button className="text-xl cursor-pointer" onClick={() => addToFavourites(l)} data-testid={`addToFavouritesBtn-${index}`}>
+               {favourites.includes(l.id) ? <>&#9733;</> : <>&#9734;</>}
+              </button>
             </td>
           </tr>
         )}
